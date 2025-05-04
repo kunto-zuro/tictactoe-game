@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Game</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="text-center mb-0">Tic Tac Toe</h1>
+                </div>
+                <div class="card-body">
+                    <!-- Game setup form -->
+                    <div id="gameSetup" th:if="${game == null}">
+                        <div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+                        <form th:action="@{/game}" method="post" class="mb-4">
+                            <div class="form-group mb-3">
+                                <label for="boardSize">Board Size:</label>
+                                <select id="boardSize" name="size" class="form-control">
+                                    <option value="3">3x3 (Classic)</option>
+                                    <option value="5">5x5</option>
+                                    <option value="7">7x7</option>
+                                    <option value="9">9x9</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Start New Game</button>
+                        </form>
+                    </div>
+
+                    <!-- Game board -->
+                    <div id="gameBoard" th:if="${game != null}">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3>
+                                    <span th:if="${game.status.name() == 'IN_PROGRESS'}">
+                                        Current Player: <span id="currentPlayer" th:text="${game.currentPlayer.symbol}" class="badge bg-info"></span>
+                                    </span>
+                                <span th:if="${game.status.name() == 'WINNER'}" class="text-success">
+                                        Winner: <span th:text="${game.winner.symbol}" class="badge bg-success"></span>
+                                    </span>
+                                <span th:if="${game.status.name() == 'DRAW'}" class="text-warning">
+                                        Game ended in a draw!
+                                    </span>
+                            </h3>
+                            <div>
+                                <form th:action="@{/api/game/{id}/reset(id=${game.id})}" method="post" id="resetForm">
+                                    <button id="resetButton" class="btn btn-warning">
+                                        <i class="bi bi-arrow-repeat"></i> Reset
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="board-container">
+                            <div id="board" th:data-game-id="${game.id}" th:data-size="${game.board.size}">
+                                <table class="board-table">
+                                    <tbody>
+                                    <tr th:each="row, rowStat : ${game.board.cells}">
+                                        <td th:each="cell, colStat : ${row}"
+                                            th:data-row="${rowStat.index}"
+                                            th:data-col="${colStat.index}"
+                                            th:text="${cell.value}"
+                                            class="cell"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <a href="/" class="btn btn-secondary">
+                                <i class="bi bi-house-door"></i> Back to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <p class="mb-0">Created by Kurniawan Putra Adityanto</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<!-- Custom JS -->
+<script src="/static/js/game.js"></script>
+</body>
+</html>

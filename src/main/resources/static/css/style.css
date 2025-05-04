@@ -1,0 +1,128 @@
+/* General styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 1.5rem;
+}
+
+/* Board styling */
+.board-container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.board-table {
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.cell {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #343a40;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cell:hover {
+    background-color: #f0f0f0;
+}
+
+/* X and O styles */
+.cell:empty:hover::after {
+    content: attr(data-hover);
+    opacity: 0.3;
+}
+
+/* Responsive board sizing */
+@media (max-width: 768px) {
+    .cell {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .cell {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+}
+
+/* For larger board sizes */
+.board-table[data-size="5"] .cell {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+}
+
+.board-table[data-size="7"] .cell {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+}
+
+.board-table[data-size="9"] .cell {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+}
+
+/* Player symbols */
+.x-symbol {
+    color: #dc3545; /* Red */
+}
+
+.o-symbol {
+    color: #007bff; /* Blue */
+}
+
+/* Game status */
+.game-over .cell {
+    cursor: not-allowed;
+}
+
+.winning-cell {
+    background-color: #d4edda;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.winner-announcement {
+    animation: pulse 1s infinite;
+}
+
+/* Game information */
+.game-info {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
